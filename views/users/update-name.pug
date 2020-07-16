@@ -1,0 +1,11 @@
+extends ../layouts/common.pug
+block content
+  h4 Update user name
+  h4 Current user name: "#{currentName}" 
+    form(action="/users/update-name/" + currentNameID, method="POST")
+      .form-control
+        label New Name: 
+      input.form-control(type="text", name="name")
+      .group-btn
+        button.btn.btn-primary Update name
+  a(href="/users/") Back

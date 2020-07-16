@@ -1,0 +1,26 @@
+html
+  head
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css")
+    link(rel="icon", type="image/x-icon", href="https://cdn.glitch.com/cfc37ad7-f080-4777-b82f-3efe685d79f5%2Ffavicon.jpg")
+    link(rel="stylesheet", href="/custom.css")
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")    
+    script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js")
+  body.p-3
+    header
+      nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-2
+        a.navbar-brand(href='/')
+          img(src="https://cdn.glitch.com/5ac71653-8417-46c4-8edc-0b23441b27cf%2Fdownload.png", width="148", height="30")
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item
+              a.nav-link(href='/books') Books 
+            li.nav-item
+              a.nav-link(href='/users') User
+            li.nav-item
+              a.nav-link(href='/transactions') Transactions
+        if user
+          p= user.name
+    block content

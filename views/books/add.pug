@@ -1,0 +1,12 @@
+extends ../layouts/common.pug
+block content
+  h3 Add book
+  form(action="/books/add", method="POST")
+    .form-group
+      label Title 
+      input.form-control(type="text", name="title")
+    .form-group
+      label Description 
+      input.form-control(type="text", name="desc")
+    button.btn.btn-primary Add this book
+  a(href="/books/") Back
