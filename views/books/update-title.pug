@@ -1,0 +1,13 @@
+extends ../layouts/common.pug
+block content
+  h4 Update book title
+  h4 Current book title: "#{currentTitle}" 
+  
+  form(action="/books/update-title/" + currentBookID, method="POST")
+    .form-group
+      label New Title: 
+      input.form-control(type="text", name="title")
+    .form-group
+      button.btn.btn-primary Update title
+    .form-group
+      a(href="/books/") Back

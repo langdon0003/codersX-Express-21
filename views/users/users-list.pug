@@ -1,0 +1,42 @@
+extends ../layouts/common.pug
+block content
+  
+  h3 User list:
+  table(class="table")
+    thead
+      tr
+        th(scope="col") Avatar
+        th(scope="col") User name
+        th(scope="col") Phone number
+        th(scope="col") Email
+        th(scope="col") Action
+    tbody
+      each user in usersList
+        tr
+          td
+            img(src="https://miro.medium.com/max/360/1*W35QUSvGpcLuxPo3SRTH4w.png", width="64")
+          td=user ? user.name : "Invalid user"
+          td=user ? user.phone : "No phone number"
+          td=user ? user.email : "No email"
+          td
+            .group-btn
+            a.btn.btn-primary.mr-1(href='/users/update-name/' + user.id) Update name
+            a.btn.btn-primary.mr-1(href='/users/delete/' + user.id) Delete
+ 
+  nav
+  ul.pagination
+    li.page-item
+      a.page-link(href="?page=0", aria-label="Previous")
+        span(aria-hidden="true") &laquo;
+        span.sr-only Previous
+    li.page-item
+      a.page-link(href=`?page=${pageNumber--}`) #{pageNumber--}
+    li.page-item.active
+      a.page-link(href=`?page=${pageNumber}`) #{pageNumber}
+    li.page-item
+      a.page-link(href=`?page=${pageNumber++}`) #{pageNumber++}
+    li.page-item
+      a.page-link(href="?page=0", aria-label="Next")
+        span(aria-hidden="true") &raquo;
+        span.sr-only Next
+  a.btn.btn-secondary(href="/users/add") Add more user

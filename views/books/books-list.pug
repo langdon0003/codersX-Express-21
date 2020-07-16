@@ -1,0 +1,19 @@
+extends ../layouts/common.pug
+block content
+  h3 Books list:
+  table(class="table")
+    thead
+      tr.d-flex
+        th.col(scope="col") Title
+        th.col-6(scope="col") Description
+        th.col(scope="col") Action
+    tbody
+      each book in booksList
+        tr.d-flex
+          td.col=book ? book.title : "Invalid book"
+          td.col-6=book ? book.desc : "No phone number"
+          td.col
+            .group-btn
+              a.btn.btn-primary.mr-2(href='/books/update-title/' + book.id) Update title
+              a.btn.btn-primary.mr-2(href='/books/delete/' + book.id) Delete this book
+  a.btn.btn-secondary(href="/books/add") Add more book
