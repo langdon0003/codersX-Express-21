@@ -12,7 +12,6 @@ module.exports.validateUser = function(req, res, next) {
   if (req.body.name.length == 0) {
     errors.push("User name can not be empty!");
   }
-  console.log(req.body.name.length);
 
   if (errors.length) {
     res.render("users/add", {

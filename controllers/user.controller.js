@@ -23,7 +23,12 @@ module.exports.add = function(req, res) {
 };
 
 module.exports.addPOST = function(req, res) {
-  cloudinary.uploader.upload(req.body.avatar);
+  var a = req.body.avatar
+  cloudinary.uploader.upload(req.body.avatar,{
+    cloud_name: CLOUDINARY_CLOUD_NAME,
+    api_key: CLOUDINARY_API_KEY, 
+    api_keyapi_secret: CLOUDINARY_API_SECRET
+  });
   var id = shortid();
   
   
