@@ -1,0 +1,12 @@
+extends ../layouts/common.pug
+block content
+  h3 Hello #{currentName}. You can change your avatar here.
+
+  form(action='/users/profile/avatar', method='POST', enctype='multipart/form-data')
+    .form-group
+        label(for="avatar") New avatar
+        input#avatar.form-control-file(name="avatar", type="file")
+    button.btn.btn-primary Change
+
+  form
+    img(src=`${currrentAvatarUrl}`, width= 128)

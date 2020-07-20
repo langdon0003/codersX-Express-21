@@ -14,7 +14,7 @@ block content
       each user in usersList
         tr
           td
-            img(src="https://miro.medium.com/max/360/1*W35QUSvGpcLuxPo3SRTH4w.png", width="64")
+            img(src=user.avatar, width="64")
           td=user ? user.name : "Invalid user"
           td=user ? user.phone : "No phone number"
           td=user ? user.email : "No email"

@@ -524,7 +524,8 @@
       "email": "longnt8910@gmail.com",
       "password": "$2b$10$sM0aQpVeuB9MWGlWez5S0O2/qD51kXCJPovuDBYavYvQBVcvYSaFm",
       "isAdmin": true,
-      "wrongLoginCount": 2
+      "wrongLoginCount": 2,
+      "avatarUrl": "http://res.cloudinary.com/longpos/image/upload/UVSOno_avatar.jpg"
     },
     {
       "id": "1uvljT",
@@ -842,6 +843,82 @@
       "id": "NKb5aIiBV8",
       "name": "longpos123",
       "phone": "123123"
+    },
+    {
+      "id": "Du4_micuGZ",
+      "name": "longpos",
+      "phone": "0886688195"
+    },
+    {
+      "id": "7fpza69em",
+      "name": "longpos",
+      "phone": "0886688195"
+    },
+    {
+      "id": "ymnTPw6Kkg",
+      "name": "longpos",
+      "phone": "0886688195",
+      "avatar": "../public/upload/5012c1554a8bf268cb9f071bdd2feebb"
+    },
+    {
+      "id": "p918q3iGTw",
+      "name": "longpos",
+      "phone": "0886688195",
+      "avatar": "upload/6cca0670793cd73ef5535ce33e385d36"
+    },
+    {
+      "id": "8vWaeNVYg",
+      "name": "longpos",
+      "phone": "0886688195",
+      "avatar": "uploads/8e2167e9852024d21fd5b3d5affa4643"
+    },
+    {
+      "id": "HbvksgIEp",
+      "name": "longpos",
+      "phone": "0886688195",
+      "avatar": "uploads/40255a770a6e3866e099df2836c7b2f1"
+    },
+    {
+      "id": "uktZ7nrNa",
+      "name": "longpos",
+      "phone": "0886688195",
+      "avatar": "uploads/814ad7eb86f1cdc73494837dbc82ec4b"
+    },
+    {
+      "id": "18w00b33H",
+      "name": "longpos123",
+      "phone": "123123",
+      "avatar": "uploads/5d0edacb3a42f883c01a629c0e238187"
+    },
+    {
+      "id": "BR90vnoar",
+      "name": "longpos",
+      "phone": "0886688195",
+      "avatar": "uploads/1a63c39bef610b67c13b5daee89c5a07"
+    },
+    {
+      "id": "sj0sQZJ50w",
+      "name": "longpos123",
+      "phone": "0886688195",
+      "avatar": "uploads/7765da1b6c997f49b76ecbd324a27706"
+    },
+    {
+      "id": "AkZqPiCjJJ",
+      "name": "Nguyễn Thành Long",
+      "phone": "123123",
+      "avatar": "uploads/a5ef79ec6142a7ded767b400c34512c9"
+    },
+    {
+      "id": "lHgMRxp1N",
+      "name": "DoMin",
+      "phone": "123123",
+      "avatar": "uploads/acb5fc8612dfed14e1a0c716ce48602e"
+    },
+    {
+      "id": "uOpVQ0DTy8",
+      "name": "longpos123",
+      "phone": "123123",
+      "avatar": "uploads/4b18659a52317fac24b60486d1e1e150"
     }
   ],
   "transactionsList": [

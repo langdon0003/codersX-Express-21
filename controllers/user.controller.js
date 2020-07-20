@@ -1,12 +1,19 @@
 const db = require("../db");
 
 const shortid = require("shortid");
-
+const dotenv = require("dotenv").config();
 const cloudinary = require('cloudinary').v2;
+const path = require("path");
+const streamifier = require('streamifier');
+
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_keyapi_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 module.exports.usersList = function(req, res) {
   var pageNumber = parseInt(req.query.page) || 0;
-  console.log(pageNumber)
   var perPage = 5;
   res.render("users/users-list", {
     usersList: db
@@ -23,22 +30,19 @@ module.exports.add = function(req, res) {
 };
 
 module.exports.addPOST = function(req, res) {
-  var a = req.body.avatar
-  cloudinary.uploader.upload(req.body.avatar,{
-    cloud_name: CLOUDINARY_CLOUD_NAME,
-    api_key: CLOUDINARY_API_KEY, 
-    api_keyapi_secret: CLOUDINARY_API_SECRET
-  });
+  // var avatar = req.file.path.split("/").slice(1).join("/");
+  // var x = async function (req, res) {
+  //   var path = await cloudinary.uploader.upload(avatar)
+  //   .then(result => result.url)
+  // }
   var id = shortid();
-  
-  
   db.get("usersList")
     .push({ 
       id: id,
       name: req.body.name, 
       phone: req.body.phone, 
-      avatar: req.body.url
-  })
+      // avatar: avatar
+    })
     .write();
   
   
@@ -71,3 +75,52 @@ module.exports.updatePOST = function(req, res) {
     .write();
   res.redirect("/users");
 };
+
+module.exports.profile = function(req,res)  {
+  var authUser = db
+    .get("usersList")
+    .find({ id: req.signedCookies.userId })
+    .value();
+
+  res.render("users/profile", {
+     currentName : authUser.name,
+     currrentAvatarUrl : authUser.avatarUrl,
+     currentEmail : authUser.email,
+     currentPhone : authUser.phone
+   });
+}
+
+module.exports.avatar = function(req, res) {
+  var authUser = db
+    .get("usersList")
+    .find({ id: req.signedCookies.userId })
+    .value();
+  res.render("users/avatar", {
+     currentName : authUser.name,
+     currrentAvatarUrl : authUser.avatarUrl,
+   });
+}
+
+module.exports.avatarPOST = function(req, res) {
+  var authUser = db
+    .get("usersList")
+    .find({ id: req.signedCookies.userId })
+    .value();
+  
+  let cld_upload_stream = cloudinary.uploader
+      .upload_stream({
+        public_id: authUser.id+"_avatar",
+      }
+  )
+  
+  streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream)
+  
+  var newAvatarUrl = cloudinary.url(authUser.id+"_avatar"+path.extname(req.file.originalname));
+
+  db.get("usersList")
+    .find({ id: req.signedCookies.userId })
+    .assign({avatarUrl : newAvatarUrl})
+    .write();
+
+  res.redirect("/users/profile");
+}

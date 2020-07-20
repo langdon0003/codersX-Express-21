@@ -1,0 +1,10 @@
+extends ../layouts/common.pug
+block content
+  h3 User profile
+  .form
+    h4 Name: #{currentName}
+    h4 Email: #{currentEmail}
+    h4 Phone: #{currentPhone}
+    h4 
+    img(src=`${currrentAvatarUrl}`, width= 128)
+  a.btn.btn-secondary(href="/users/profile/avatar") Update avatar
