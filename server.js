@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieMiddleware.countCookie);
 
-app.use("/users", authMiddleware.requireAuth, userRoute);
+app.use("/users", userRoute);
 app.use("/books", authMiddleware.requireAuth, bookRoute);
 app.use("/transactions", authMiddleware.requireAuth, transactionRoute);
 app.use("/auth", authRoute);

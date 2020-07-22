@@ -1,12 +1,17 @@
-const db = require("../db");
+var db = require("../db");
+var shortid = require("shortid");
 
-const shortid = require("shortid");
+function paginateNumbers(current) {
+  if (current <= 2) return [1, 2, 3];
+  var start = current - 1;
+  const arr = new Array(3).fill();
+  return arr.map(() => start++);
+}
 
-const cloudinary = require('cloudinary').v2;
 
 module.exports.usersList = function(req, res) {
   var pageNumber = parseInt(req.query.page) || 0;
-  console.log(pageNumber)
+  var currentPaginate = [1, 2, 3];
   var perPage = 5;
   res.render("users/users-list", {
     usersList: db
@@ -14,7 +19,7 @@ module.exports.usersList = function(req, res) {
       .drop((pageNumber-1)*perPage)
       .take(perPage)
       .value(),
-    pageNumber: pageNumber.toString()
+    pages: paginateNumbers(pageNumber),
   });
 };
 
@@ -23,21 +28,12 @@ module.exports.add = function(req, res) {
 };
 
 module.exports.addPOST = function(req, res) {
-  cloudinary.uploader.upload(req.body.avatar);
   var id = shortid();
-  
-  
   db.get("usersList")
-    .push({ 
-      id: id,
-      name: req.body.name, 
-      phone: req.body.phone, 
-      avatar: req.body.url
-  })
-    .write();
-  
-  
-  res.redirect(`/users/${id}`);
+    .push({ id: id, name: req.body.name, phone: req.body.phone })
+    .value();
+  db.get("usersList").write();
+  res.redirect("/users");
 };
 
 module.exports.update = function(req, res) {

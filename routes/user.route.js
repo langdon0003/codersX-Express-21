@@ -8,7 +8,7 @@ var authMiddleware = require("../middleware/auth.middleware");
 
 var router = express.Router();
 
-router.get("/", authMiddleware.requireAuth, controller.usersList);
+router.get("/", controller.usersList);
 
 router.get("/add", controller.add);
 

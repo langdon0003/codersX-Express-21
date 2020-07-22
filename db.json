@@ -524,7 +524,7 @@
       "email": "longnt8910@gmail.com",
       "password": "$2b$10$sM0aQpVeuB9MWGlWez5S0O2/qD51kXCJPovuDBYavYvQBVcvYSaFm",
       "isAdmin": true,
-      "wrongLoginCount": 2
+      "wrongLoginCount": 1
     },
     {
       "id": "1uvljT",
@@ -822,26 +822,6 @@
       "name": "Zoé",
       "phone": "(982) 9903067",
       "email": "harno19@wikia.com"
-    },
-    {
-      "id": "HZmZLXO7J2",
-      "name": "longpos123",
-      "phone": "123123123"
-    },
-    {
-      "id": "wyFIW2vFNK",
-      "name": "longpos123",
-      "phone": "123123123"
-    },
-    {
-      "id": "xQ25OpiUzR",
-      "name": "longpos123",
-      "phone": "123123"
-    },
-    {
-      "id": "NKb5aIiBV8",
-      "name": "longpos123",
-      "phone": "123123"
     }
   ],
   "transactionsList": [
