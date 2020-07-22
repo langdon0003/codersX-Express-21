@@ -13,7 +13,7 @@ router.get("/", authMiddleware.requireAuth, controller.usersList);
 
 router.get("/add", controller.add);
 
-router.post("/add", validate.validateUser, controller.addPOST);
+router.post("/add", upload.single('avatar'), validate.validateUser, controller.addPOST);
 
 router.get("/update-name/:id", controller.update);
 

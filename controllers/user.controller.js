@@ -2,13 +2,12 @@ const db = require("../db");
 
 const shortid = require("shortid");
 const dotenv = require("dotenv").config();
-const cloudinary = require('cloudinary').v2;
-const path = require("path");
-const streamifier = require('streamifier');
+const cloudinary = require("cloudinary").v2;
+const streamifier = require("streamifier");
 
-cloudinary.config({ 
+cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_key: process.env.CLOUDINARY_API_KEY,
   api_keyapi_secret: process.env.CLOUDINARY_API_SECRET
 });
 
@@ -18,7 +17,7 @@ module.exports.usersList = function(req, res) {
   res.render("users/users-list", {
     usersList: db
       .get("usersList")
-      .drop((pageNumber-1)*perPage)
+      .drop((pageNumber - 1) * perPage)
       .take(perPage)
       .value(),
     pageNumber: pageNumber.toString()
@@ -29,24 +28,33 @@ module.exports.add = function(req, res) {
   res.render("users/add");
 };
 
-module.exports.addPOST = function(req, res) {
-  // var avatar = req.file.path.split("/").slice(1).join("/");
-  // var x = async function (req, res) {
-  //   var path = await cloudinary.uploader.upload(avatar)
-  //   .then(result => result.url)
-  // }
+module.exports.addPOST = async function(req, res) {
   var id = shortid();
   db.get("usersList")
-    .push({ 
+    .push({
       id: id,
-      name: req.body.name, 
-      phone: req.body.phone, 
-      // avatar: avatar
+      name: req.body.name,
+      phone: req.body.phone,
+      avatarUrl: ""
     })
     .write();
-  
-  
-  res.redirect(`/users/${id}`);
+  let cld_upload_stream = await cloudinary.uploader.upload_stream(
+    {
+      public_id: id + "_avatar",
+      invalidate: true
+    },
+    (error, result) => {
+      db.get("usersList")
+        .find({ id: id })
+        .assign({
+          avatarUrl: result.url
+        })
+        .write();
+      res.redirect("/users");
+    }
+  );
+
+  streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream);
 };
 
 module.exports.update = function(req, res) {
@@ -76,19 +84,19 @@ module.exports.updatePOST = function(req, res) {
   res.redirect("/users");
 };
 
-module.exports.profile = function(req,res)  {
+module.exports.profile = function(req, res) {
   var authUser = db
     .get("usersList")
     .find({ id: req.signedCookies.userId })
     .value();
 
   res.render("users/profile", {
-     currentName : authUser.name,
-     currrentAvatarUrl : authUser.avatarUrl,
-     currentEmail : authUser.email,
-     currentPhone : authUser.phone
-   });
-}
+    currentName: authUser.name,
+    currrentAvatarUrl: authUser.avatarUrl,
+    currentEmail: authUser.email,
+    currentPhone: authUser.phone
+  });
+};
 
 module.exports.avatar = function(req, res) {
   var authUser = db
@@ -96,31 +104,29 @@ module.exports.avatar = function(req, res) {
     .find({ id: req.signedCookies.userId })
     .value();
   res.render("users/avatar", {
-     currentName : authUser.name,
-     currrentAvatarUrl : authUser.avatarUrl,
-   });
-}
+    currentName: authUser.name,
+    currrentAvatarUrl: authUser.avatarUrl
+  });
+};
 
-module.exports.avatarPOST = function(req, res) {
+module.exports.avatarPOST = async function(req, res) {
   var authUser = db
     .get("usersList")
     .find({ id: req.signedCookies.userId })
     .value();
-  
-  let cld_upload_stream = cloudinary.uploader
-      .upload_stream({
-        public_id: authUser.id+"_avatar",
-      }
-  )
-  
-  streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream)
-  
-  var newAvatarUrl = cloudinary.url(authUser.id+"_avatar"+path.extname(req.file.originalname));
 
-  db.get("usersList")
-    .find({ id: req.signedCookies.userId })
-    .assign({avatarUrl : newAvatarUrl})
-    .write();
-
-  res.redirect("/users/profile");
-}
+  let cld_upload_stream = await cloudinary.uploader.upload_stream(
+    {
+      public_id: authUser.id + "_avatar",
+      invalidate: true
+    },
+    (error, result) => {
+      db.get("usersList")
+        .find({ id: req.signedCookies.userId })
+        .assign({ avatarUrl: result.url })
+        .write();
+      res.redirect("/users/profile");
+    }
+  );
+  streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream);
+};
